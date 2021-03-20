@@ -28,6 +28,8 @@ def login(phone, password):
         result = {
             "status" : "Success"
         }
+    con.commit()
+    con.close()
     return json.dumps(result)
 
     # get news title, desc, img, date
@@ -55,10 +57,10 @@ def show() :
                 "author": rec[3],
                 "news_pic_url": rec[4]
             }
-            #print(json.dumps(result))
             string_res += json.dumps(result) + "<br>"
-        #return "Suc"
         string_res += "]"
+        con.commit()
+        con.close()
         return string_res
 
 # write get for concrete article
