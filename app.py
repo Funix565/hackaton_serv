@@ -62,22 +62,24 @@ def show() :
 
 # write get for concrete article
 
-@app.route('/news/<int:id_news>/<string:contents>/')
-def publish(id_news, contents) :
-    cur = con.cursor()
-    cur.execute("SELECT id_news FROM news WHERE id_news = %s", ((id_news)))
-    rows = cur.fetchone()
-    if (rows == None) :
-        result = {
-            "status" : "Fail"
-        }
-    else:
-        result = {
-            "status" : "Success"
-        }
-    con.commit()
-    con.close()
-    return json.dumps(result)
+# @app.route('/news/<int:id_news>/<string:contents>/')
+# def publish(id_news, contents) :
+#     cur = con.cursor()
+#     cur.execute("SELECT id_news, contents FROM news WHERE id_news = %s AND contents = %s", ((id_news), (contents)))
+#     rows = cur.fetchone()
+#     if (rows == None) :
+#         print('None')
+#         result = {
+#             "status" : "Fail"
+#         }
+#     else:
+#         print('I in')
+#         result = {
+#             "status" : "Success"
+#         }
+#     con.commit()
+#     con.close()
+#     return json.dumps(result)
 
 
 
