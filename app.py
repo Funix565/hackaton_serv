@@ -63,10 +63,10 @@ def show() :
 
 # write get for concrete article
 
-@app.route('/news/<int:id_news>/<string:contents>/')
-def publish(id_news, contents) :
+@app.route('/news/<int:id_news>/')
+def publish(id_news) :
     cur = con.cursor()
-    cur.execute("SELECT id_news, news_date, contents, news_text, author, news_pic_url FROM news WHERE id_news = %s AND contents = %s", ((id_news), (contents)))
+    cur.execute("SELECT id_news, news_date, contents, news_text, author, news_pic_url FROM news WHERE id_news = %s", (id_news,))
     rows = cur.fetchone()
     if (rows == None) :
         result = {
@@ -83,6 +83,30 @@ def publish(id_news, contents) :
             "news_pic_url" : rows[5]
         }
         return json.dumps(result)
+
+@app.route('/goods/list/')
+def see_goods() :
+    cur = con.cursor()
+    cur.execute("SELECT name, description, price, link FROM goods LIMIT 10")
+    rows = cur.fetchall()
+    if (rows == []) :
+        result = {
+            "status" : "null"
+        }
+        return json.dumps(results)
+    else :
+        string_res = "[<br>"
+        for rec in rows :
+            result = {
+                "status" : "not null",
+                "name" : rec[0],
+                "description" : rec[1],
+                "price" : rec[2],
+                "link" : rec[3]
+            }
+            string_res += json.dumps(result) + "<br>"
+        string_res += "]"
+        return string_res
 
 
 if __name__ == '__main__':
