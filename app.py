@@ -30,7 +30,7 @@ def login(phone, password):
         }
     return json.dumps(result)
 
-@app.route('/news/list.json/')
+@app.route('/news/list/')
 def show() :
     cur = con.cursor()
     cur.execute("SELECT news_date, contents, news_pic_url FROM news LIMIT 10")
