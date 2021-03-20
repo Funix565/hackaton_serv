@@ -32,7 +32,6 @@ def login(phone, password):
     con.close()
     return json.dumps(result)
 
-    # get news title, desc, img, date
     # get full news
 
 
@@ -62,6 +61,24 @@ def show() :
         return string_res
 
 # write get for concrete article
+
+@app.route('/news/<int:id_news>/<string:contents>/')
+def publish(id_news, contents) :
+    cur = con.cursor()
+    cur.execute("SELECT id_news FROM news WHERE id_news = %s", ((id_news)))
+    rows = cur.fetchone()
+    if (rows == None) :
+        result = {
+            "status" : "Fail"
+        }
+    else:
+        result = {
+            "status" : "Success"
+        }
+    con.commit()
+    con.close()
+    return json.dumps(result)
+
 
 
 if __name__ == '__main__':
