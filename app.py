@@ -127,6 +127,55 @@ def buy_g(goods) :
         }
         return json.dumps(result)
 
+@app.route('/excursions/list/')
+def see_excurs() :
+    cur = con.cursor()
+    cur.execute("SELECT name, price, link FROM excursions LIMIT 10")
+    rows = cur.fetchall()
+    if (rows == []) :
+        result = {
+            "status" : "null"
+        }
+        return json.dumps(results)
+    else :
+        string_res = ""
+        for rec in rows :
+            result = {
+                "status" : "not null",
+                "name" : rec[0],
+                "price" : rec[1],
+                "link" : rec[2]
+            }
+            string_res += json.dumps(result)
+        string_res += "]"
+        return string_res
+
+@app.route('/excursions/<int:excursions>/')
+def buy_excurs(excursions) :
+    cur = con.cursor()
+    cur.execute("SELECT excursions, triales, price, description, link, name FROM excursions WHERE excursions = %s", (excursions,))
+    rows = cur.fetchone()
+    if (rows == None) :
+        result = {
+            "status" : "Fail"
+        }
+        return json.dumps(result)
+    else :
+        result = {
+            "status" : "not null",
+            "triales" : rows[1],
+            "price" : rows[2],
+            "description" : rows[3],
+            "link" : rows[4],
+            "name" : rows[5]
+        }
+        return json.dumps(result)
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
