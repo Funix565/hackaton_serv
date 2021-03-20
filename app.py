@@ -53,8 +53,6 @@ def show() :
                 "status": "not null",
                 "news_date": str(rec[0]),
                 "contents": rec[1],
-                "news_text": rec[2], # only title and desc
-                "author": rec[3],
                 "news_pic_url": rec[4]
             }
             string_res += json.dumps(result) + "<br>"
