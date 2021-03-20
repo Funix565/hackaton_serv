@@ -35,6 +35,7 @@ def login(phone, password):
 
 @app.route('/news/list/')
 def show() :
+    print('News list')
     cur = con.cursor()
     cur.execute("SELECT news_date, contents, news_text, author, news_pic_url FROM news LIMIT 10")
     rows = cur.fetchall()
