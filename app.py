@@ -41,7 +41,7 @@ def login(phone, password):
 @app.route('/news/list/')
 def show() :
     cur = con.cursor()
-    cur.execute("SELECT news_date, contents, news_text, author, news_pic_url FROM news LIMIT 10")
+    cur.execute("SELECT news_date, contents, news_pic_url FROM news LIMIT 10")
     rows = cur.fetchall()
     if (rows == []) :
         result = {
@@ -49,15 +49,15 @@ def show() :
         }
         return json.dumps(result)
     else :
-        string_res = "[<br>"
+        string_res = ""
         for rec in rows :
             result = {
                 "status": "not null",
                 "news_date": str(rec[0]),
                 "contents": rec[1],
-                "news_pic_url": rec[4]
+                "news_pic_url": rec[2]
             }
-            string_res += json.dumps(result) + "<br>"
+            string_res += json.dumps(result)
         string_res += "]"
         return string_res
 
@@ -87,7 +87,7 @@ def publish(id_news) :
 @app.route('/goods/list/')
 def see_goods() :
     cur = con.cursor()
-    cur.execute("SELECT name, description, price, link FROM goods LIMIT 10")
+    cur.execute("SELECT name, price, link FROM goods LIMIT 10")
     rows = cur.fetchall()
     if (rows == []) :
         result = {
@@ -95,18 +95,37 @@ def see_goods() :
         }
         return json.dumps(results)
     else :
-        string_res = "[<br>"
+        string_res = ""
         for rec in rows :
             result = {
                 "status" : "not null",
                 "name" : rec[0],
-                "description" : rec[1],
-                "price" : rec[2],
-                "link" : rec[3]
+                "price" : rec[1],
+                "link" : rec[2]
             }
-            string_res += json.dumps(result) + "<br>"
+            string_res += json.dumps(result)
         string_res += "]"
         return string_res
+
+@app.route('/goods/<int:goods>/')
+def buy_g(goods) :
+    cur = con.cursor()
+    cur.execute("SELECT goods, name, description, price, link FROM goods WHERE goods = %s", (goods,))
+    rows = cur.fetchone()
+    if (rows == None) :
+        result = {
+            "status" : "Fail"
+        }
+        return json.dumps(result)
+    else :
+        result = {
+            "status" : "not null",
+            "name" : rows[1],
+            "description" : rows[2],
+            "price" : rows[3],
+            "link" : rows[4]
+        }
+        return json.dumps(result)
 
 
 if __name__ == '__main__':
