@@ -6,13 +6,9 @@ import json
 con = psycopg2.connect(
   database="hack", 
   user="sergres", 
-  #user="postgres",
   password="password", 
-  #password="Kumkva2021",
   host="204.2.63.23", 
-  #host="127.0.0.1",
   port="24192"
-  #port="5432"
 )
 
 print("Database opened successfully")
