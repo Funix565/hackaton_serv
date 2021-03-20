@@ -6,8 +6,8 @@ import json
 con = psycopg2.connect(
   database="hack", 
   user="sergres", 
-  password="password", 
-  host="204.2.63.23", 
+  password="password",
+  host="204.2.63.23",
   port="24192"
 )
 
@@ -28,8 +28,6 @@ def login(phone, password):
         result = {
             "status" : "Success"
         }
-    con.commit()
-    cur.close()
     return json.dumps(result)
 
     # get full news
@@ -56,8 +54,6 @@ def show() :
             }
             string_res += json.dumps(result) + "<br>"
         string_res += "]"
-        con.commit()
-        cur.close()
         return string_res
 
 # write get for concrete article
