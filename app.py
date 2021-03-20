@@ -29,7 +29,7 @@ def login(phone, password):
             "status" : "Success"
         }
     con.commit()
-    con.close()
+    cur.close()
     return json.dumps(result)
 
     # get full news
@@ -57,7 +57,7 @@ def show() :
             string_res += json.dumps(result) + "<br>"
         string_res += "]"
         con.commit()
-        con.close()
+        cur.close()
         return string_res
 
 # write get for concrete article
