@@ -30,10 +30,6 @@ def login(phone, password):
         }
     return json.dumps(result)
 
-    # get news title, desc, img, date
-    # get full news
-
-
 @app.route('/news/list/')
 def show() :
     cur = con.cursor()
@@ -56,8 +52,6 @@ def show() :
             string_res += json.dumps(result)
         string_res += "]"
         return string_res
-
-# write get for concrete article
 
 @app.route('/news/<int:id_news>/')
 def publish(id_news) :
@@ -167,10 +161,47 @@ def buy_excurs(excursions) :
         }
         return json.dumps(result)
 
+@app.route('/partners/list/')
+def see_partners() :
+    cur = con.cursor()
+    cur.execute("SELECT name, link FROM partners LIMIT 10")
+    rows = cur.fetchall()
+    if (rows == []) :
+        result = {
+            "status" : "null"
+        }
+        return json.dumps(results)
+    else :
+        string_res = ""
+        for rec in rows :
+            result = {
+                "status" : "not null",
+                "name" : rec[0],
+                "link" : rec[1]
+            }
+            string_res += json.dumps(result)
+        string_res += "]"
+        return string_res
 
-
-
-
+@app.route('/partners/<int:partners>/')
+def one_partner(partners) :
+    cur = con.cursor()
+    cur.execute("SELECT partners, name, description, cashback, link FROM partners WHERE partners = %s", (partners,))
+    rows = cur.fetchone()
+    if (rows == None) :
+        result = {
+            "status" : "Fail"
+        }
+        return json.dumps(result)
+    else :
+        result = {
+            "status" : "not null",
+            "name" : rows[1],
+            "description" : rows[2],
+            "cashback" : rows[3],
+            "link" : rows[4]
+        }
+        return json.dumps(result)
 
 
 if __name__ == '__main__':
