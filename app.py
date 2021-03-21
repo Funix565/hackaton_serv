@@ -1,6 +1,6 @@
 #!flask/bin/python
 from flask import Flask
-#from flask_cors import CORS
+from flask_cors import CORS
 import psycopg2
 import json
 
@@ -15,7 +15,7 @@ con = psycopg2.connect(
 print("Database opened successfully")
 
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 
 @app.route('/login/<string:phone>/<string:password>/')
 def login(phone, password):
@@ -32,8 +32,8 @@ def login(phone, password):
         }
     return json.dumps(result)
 
-#@app.route('/news/list/', methods=['GET'])
-@app.route('/news/list/')
+@app.route('/news/list/', methods=['GET'])
+#@app.route('/news/list/')
 def show() :
     cur = con.cursor()
     cur.execute("SELECT news_date, contents, news_pic_url FROM news LIMIT 10")
