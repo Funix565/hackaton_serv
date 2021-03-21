@@ -1,6 +1,6 @@
 #!flask/bin/python
 from flask import Flask
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 import psycopg2
 import json
 
