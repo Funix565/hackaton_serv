@@ -15,9 +15,11 @@ con = psycopg2.connect(
 print("Database opened successfully")
 
 app = Flask(__name__)
-CORS(app)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-type'
 
 @app.route('/login/<string:phone>/<string:password>/')
+@cross_origin()
 def login(phone, password):
     cur = con.cursor()
     cur.execute("SELECT phone, password FROM customer WHERE phone = %s AND password = %s", ((phone), (password)))
@@ -33,6 +35,7 @@ def login(phone, password):
     return json.dumps(result)
 
 @app.route('/news/list/', methods=['GET'])
+@cross_origin()
 #@app.route('/news/list/')
 def show() :
     cur = con.cursor()
@@ -59,6 +62,7 @@ def show() :
         return string_res
 
 @app.route('/news/<int:id_news>/')
+@cross_origin()
 def publish(id_news) :
     cur = con.cursor()
     cur.execute("SELECT id_news, news_date, contents, news_text, author, news_pic_url FROM news WHERE id_news = %s", (id_news,))
@@ -80,6 +84,7 @@ def publish(id_news) :
         return json.dumps(result)
 
 @app.route('/goods/list/')
+@cross_origin()
 def see_goods() :
     cur = con.cursor()
     cur.execute("SELECT name, price, link FROM goods LIMIT 10")
@@ -103,6 +108,7 @@ def see_goods() :
         return string_res
 
 @app.route('/goods/<int:goods>/')
+@cross_origin()
 def buy_g(goods) :
     cur = con.cursor()
     cur.execute("SELECT goods, name, description, price, link FROM goods WHERE goods = %s", (goods,))
@@ -123,6 +129,7 @@ def buy_g(goods) :
         return json.dumps(result)
 
 @app.route('/excursions/list/')
+@cross_origin()
 def see_excurs() :
     cur = con.cursor()
     cur.execute("SELECT name, price, link FROM excursions LIMIT 10")
@@ -146,6 +153,7 @@ def see_excurs() :
         return string_res
 
 @app.route('/excursions/<int:excursions>/')
+@cross_origin()
 def buy_excurs(excursions) :
     cur = con.cursor()
     cur.execute("SELECT excursions, triales, price, description, link, name FROM excursions WHERE excursions = %s", (excursions,))
@@ -167,6 +175,7 @@ def buy_excurs(excursions) :
         return json.dumps(result)
 
 @app.route('/partners/list/')
+@cross_origin()
 def see_partners() :
     cur = con.cursor()
     cur.execute("SELECT name, link FROM partners LIMIT 10")
@@ -189,6 +198,7 @@ def see_partners() :
         return string_res
 
 @app.route('/partners/<int:partners>/')
+@cross_origin()
 def one_partner(partners) :
     cur = con.cursor()
     cur.execute("SELECT partners, name, description, cashback, link FROM partners WHERE partners = %s", (partners,))
